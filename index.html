@@ -3,561 +3,611 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<title>My Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --c1: #ff6b35; --c2: #f7c59f; --c3: #efefd0; --c4: #004e89; --c5: #1a936f;
-    --dark: #0a0a0f; --card: #12121a; --border: rgba(255,255,255,0.08);
-  }
-  body { font-family: 'Space Grotesk', sans-serif; background: var(--dark); color: #fff; min-height: 100vh; overflow-x: hidden; }
-
-  #particles { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(10,10,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-  .nav-logo { font-family: 'Syne', sans-serif; font-size: 1.4rem; color: var(--c1); }
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; cursor: pointer; }
-  .nav-links a:hover { color: var(--c1); }
-  .admin-btn { background: var(--c1); color: #fff !important; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem !important; }
-
-  section { position: relative; z-index: 1; }
-
-  #hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 2rem; }
-  .hero-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-  .hero-text h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1rem; }
-  .hero-text h1 span { color: var(--c1); }
-  .hero-text .tagline { font-size: 1.1rem; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem; line-height: 1.6; }
-  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary { background: var(--c1); color: #fff; padding: 0.7rem 1.8rem; border-radius: 30px; text-decoration: none; font-weight: 600; transition: transform 0.2s, opacity 0.2s; cursor: pointer; border: none; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; }
-  .btn-outline { border: 2px solid var(--c1); color: var(--c1); padding: 0.7rem 1.8rem; border-radius: 30px; text-decoration: none; transition: all 0.2s; cursor: pointer; background: none; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; }
-  .btn-primary:hover, .btn-outline:hover { transform: translateY(-2px); opacity: 0.85; }
-  .hero-image { display: flex; justify-content: center; align-items: center; }
-  .photo-frame { width: 280px; height: 280px; border-radius: 50%; border: 3px solid var(--c1); overflow: hidden; position: relative; background: var(--card); display: flex; align-items: center; justify-content: center; }
-  .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: none; }
-  .photo-placeholder { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem; z-index: 1; }
-  .photo-placeholder .icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
-  .photo-ring { position: absolute; inset: -8px; border-radius: 50%; border: 2px dashed rgba(255,107,53,0.3); animation: spin 20s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  #about { padding: 5rem 2rem; }
-  .section-inner { max-width: 900px; margin: 0 auto; }
-  .section-title { font-family: 'Syne', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
-  .section-title span { color: var(--c1); }
-  .underline { width: 50px; height: 3px; background: var(--c1); margin-bottom: 2rem; border-radius: 2px; }
-  .about-text { color: rgba(255,255,255,0.7); line-height: 1.8; font-size: 1.05rem; max-width: 700px; }
-
-  #skills { padding: 5rem 2rem; background: rgba(255,255,255,0.02); }
-  .skills-grid { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; }
-  .skill-tag { background: var(--card); border: 1px solid var(--border); padding: 0.5rem 1.2rem; border-radius: 25px; font-size: 0.9rem; color: rgba(255,255,255,0.8); transition: all 0.3s; cursor: default; }
-  .skill-tag:hover { border-color: var(--c1); color: var(--c1); transform: translateY(-2px); }
-
-  #projects { padding: 5rem 2rem; }
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-  .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; transition: transform 0.3s, border-color 0.3s; }
-  .project-card:hover { transform: translateY(-4px); border-color: var(--c1); }
-  .proj-icon { width: 45px; height: 45px; background: rgba(255,107,53,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
-  .proj-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.4rem; }
-  .proj-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
-  .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
-  .proj-tag { font-size: 0.75rem; background: rgba(255,107,53,0.12); color: var(--c1); padding: 0.2rem 0.6rem; border-radius: 10px; }
-
-  #contact { padding: 5rem 2rem; background: rgba(255,255,255,0.02); text-align: center; }
-  .contact-email { font-size: 1.3rem; color: var(--c1); margin: 1.5rem 0; }
-  .social-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
-  .social-link { background: var(--card); border: 1px solid var(--border); padding: 0.6rem 1.4rem; border-radius: 25px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; }
-  .social-link:hover { border-color: var(--c1); color: var(--c1); }
-
-  footer { text-align: center; padding: 2rem; color: rgba(255,255,255,0.3); font-size: 0.85rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
-
-  /* ADMIN PANEL */
-  #admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; align-items: flex-start; justify-content: flex-end; padding: 1rem; overflow-y: auto; }
-  #admin-overlay.open { display: flex; }
-  #admin-panel { background: #1a1a24; border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 420px; max-height: 92vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-  .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-  .admin-header h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; color: var(--c1); }
-  .close-btn { background: none; border: 1px solid var(--border); color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
-  .admin-section { margin-bottom: 1.5rem; }
-  .admin-section h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); margin-bottom: 0.8rem; }
-  .admin-section label { font-size: 0.85rem; color: rgba(255,255,255,0.6); display: block; margin-bottom: 0.3rem; margin-top: 0.8rem; }
-  .admin-section input[type="text"],
-  .admin-section input[type="password"],
-  .admin-section textarea {
-    width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-    border-radius: 8px; padding: 0.6rem 0.8rem; color: #fff;
-    font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; outline: none;
-  }
-  .admin-section input[type="text"]:focus,
-  .admin-section input[type="password"]:focus,
-  .admin-section textarea:focus { border-color: var(--c1); }
-  .admin-section textarea { resize: vertical; min-height: 80px; }
-  .save-btn { width: 100%; background: var(--c1); color: #fff; border: none; padding: 0.8rem; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; margin-top: 0.5rem; }
-  .save-btn:hover { opacity: 0.85; }
-  .skills-admin { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
-  .skill-admin-tag { background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.3); color: var(--c1); padding: 0.25rem 0.6rem; border-radius: 12px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.3rem; }
-  .skill-admin-tag button { background: none; border: none; color: var(--c1); cursor: pointer; font-size: 0.9rem; line-height: 1; }
-  .photo-upload-label { display: block; background: rgba(255,107,53,0.15); border: 1px dashed rgba(255,107,53,0.4); color: var(--c1); width: 100%; padding: 0.8rem; border-radius: 10px; cursor: pointer; font-size: 0.9rem; text-align: center; }
-  .photo-upload-label:hover { background: rgba(255,107,53,0.25); }
-  .divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
-  .proj-admin-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem; }
-  .proj-admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
-  .proj-admin-header span { font-size: 0.85rem; font-weight: 600; }
-  .del-proj-btn { background: rgba(255,50,50,0.15); border: none; color: #ff5555; border-radius: 6px; padding: 0.2rem 0.6rem; cursor: pointer; font-size: 0.75rem; }
-  .add-proj-btn { background: rgba(255,255,255,0.05); border: 1px dashed var(--border); color: rgba(255,255,255,0.5); width: 100%; padding: 0.6rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-family: 'Space Grotesk', sans-serif; }
-  .add-proj-btn:hover { border-color: var(--c1); color: var(--c1); }
-  .proj-admin-card input[type="text"] { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; outline: none; margin-bottom: 0.5rem; }
-  .proj-admin-card input[type="text"]:focus { border-color: var(--c1); }
-
-  /* LOGIN */
-  #login-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
-  #login-overlay.open { display: flex; }
-  #login-box { background: #1a1a24; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; width: 320px; }
-  #login-box h3 { font-family: 'Syne', sans-serif; color: var(--c1); margin-bottom: 1.5rem; font-size: 1.3rem; text-align: center; }
-  #login-box input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 0.7rem 1rem; color: #fff; font-family: 'Space Grotesk'; font-size: 0.95rem; margin-bottom: 1rem; outline: none; }
-  #login-box input:focus { border-color: var(--c1); }
-  #login-error { color: #ff5555; font-size: 0.85rem; text-align: center; margin-bottom: 0.8rem; display: none; }
-  .login-cancel { background: none; border: 1px solid var(--border); color: rgba(255,255,255,0.5); width: 100%; padding: 0.6rem; border-radius: 8px; cursor: pointer; font-family: 'Space Grotesk'; font-size: 0.9rem; margin-top: 0.5rem; }
-
-  .success-toast { position: fixed; bottom: 2rem; right: 2rem; background: #1a936f; color: #fff; padding: 0.8rem 1.5rem; border-radius: 10px; font-size: 0.9rem; z-index: 9999; display: none; animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  @media (max-width: 640px) {
-    .hero-inner { grid-template-columns: 1fr; text-align: center; }
-    .hero-btns { justify-content: center; }
-    .hero-image { order: -1; }
-    .photo-frame { width: 200px; height: 200px; }
-    nav { padding: 0.8rem 1rem; }
-    .nav-links { gap: 0.8rem; }
-  }
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue:#97ff6b;--orange:#ff9142;--yellow:#ffd93d;--teal:#06d6a0;--purple:#845ec2;--blue:#4d9de0;
+  --light:#fff8f0;--white:#ffffff;--text:#2d2d2d;--muted:#888;
+}
+body{font-family:'Nunito',sans-serif;background:var(--light);color:var(--text);overflow-x:hidden;}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.18;pointer-events:none;z-index:0;animation:blobFloat 8s ease-in-out infinite;}
+.blob1{width:400px;height:400px;background:var(--pink);top:-100px;left:-100px;}
+.blob2{width:350px;height:350px;background:var(--yellow);top:30%;right:-80px;animation-delay:2s;}
+.blob3{width:300px;height:300px;background:var(--teal);bottom:10%;left:20%;animation-delay:4s;}
+@keyframes blobFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.05);}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.88);backdrop-filter:blur(16px);border-bottom:2px solid rgba(255,107,157,0.12);padding:0.8rem 2rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 20px rgba(255,107,157,0.08);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.5rem;background:linear-gradient(135deg,var(--pink),var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;font-weight:900;}
+.nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text);text-decoration:none;font-weight:700;font-size:0.88rem;padding:0.35rem 0.8rem;border-radius:20px;transition:all 0.3s;cursor:pointer;}
+.nav-links a:hover{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;}
+.nav-admin{background:linear-gradient(135deg,var(--purple),var(--blue))!important;color:#fff!important;}
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;z-index:0;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,0.93) 0%,rgba(255,248,240,0.88) 60%,rgba(255,240,255,0.78) 100%);z-index:1;}
+.hero-content{position:relative;z-index:2;text-align:center;padding:2rem;max-width:700px;}
+.hero-badge{display:inline-block;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:0.4rem 1.4rem;border-radius:25px;font-size:0.85rem;font-weight:700;margin-bottom:1.5rem;box-shadow:0 4px 15px rgba(255,107,157,0.3);animation:fadeDown 0.8s ease both;}
+.hero-avatar{width:135px;height:135px;border-radius:50%;border:4px solid #fff;box-shadow:0 10px 35px rgba(255,107,157,0.28);margin:0 auto 1.5rem;overflow:hidden;background:linear-gradient(135deg,var(--pink),var(--orange));display:flex;align-items:center;justify-content:center;animation:fadeDown 0.9s ease both;}
+.hero-avatar img{width:100%;height:100%;object-fit:cover;display:none;}
+.avatar-initials{font-family:'Playfair Display',serif;font-size:2.8rem;color:#fff;font-weight:900;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;line-height:1.1;margin-bottom:1rem;animation:fadeUp 1s ease both;}
+.hero-title span{background:linear-gradient(135deg,var(--pink),var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1.1rem;color:#555;margin-bottom:2rem;line-height:1.7;animation:fadeUp 1.1s ease both;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp 1.2s ease both;}
+.btn-grad{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:0.8rem 2rem;border-radius:30px;border:none;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(255,107,157,0.35);transition:transform 0.2s,box-shadow 0.2s;}
+.btn-grad:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(255,107,157,0.45);}
+.btn-out{background:#fff;color:var(--pink);padding:0.8rem 2rem;border-radius:30px;border:2px solid var(--pink);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-out:hover{background:var(--pink);color:#fff;transform:translateY(-3px);}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+section{position:relative;z-index:1;padding:5rem 2rem;}
+.sec-inner{max-width:1000px;margin:0 auto;}
+.sec-hd{text-align:center;margin-bottom:3rem;}
+.sec-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;margin-bottom:0.4rem;}
+.sec-title span{background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sec-sub{color:var(--muted);font-size:0.95rem;margin-top:0.3rem;}
+.divider-pill{display:flex;justify-content:center;margin:0.6rem 0;}
+.divider-pill span{width:50px;height:4px;background:linear-gradient(135deg,var(--pink),var(--orange));border-radius:2px;display:block;}
+#about{background:#fff;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.about-img-wrap{display:flex;justify-content:center;position:relative;}
+.about-img{width:270px;height:270px;border-radius:28px;overflow:hidden;box-shadow:0 20px 55px rgba(255,107,157,0.18);background:linear-gradient(135deg,var(--pink),var(--orange));display:flex;align-items:center;justify-content:center;font-size:4rem;}
+.about-img img{width:100%;height:100%;object-fit:cover;display:none;}
+.deco-circle{position:absolute;width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--yellow),var(--orange));opacity:0.25;bottom:-15px;right:25px;z-index:-1;}
+.about-text h3{font-family:'Playfair Display',serif;font-size:1.7rem;margin-bottom:1rem;}
+.about-text h3 span{background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.about-text p{color:#555;line-height:1.8;margin-bottom:1.5rem;}
+.stats-row{display:flex;gap:1rem;flex-wrap:wrap;}
+.stat-box{padding:0.9rem 1.2rem;border-radius:14px;text-align:center;min-width:80px;}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:#fff;display:block;}
+.stat-lbl{font-size:0.75rem;color:rgba(255,255,255,0.9);font-weight:600;}
+#blog{background:var(--light);}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.post-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 5px 25px rgba(0,0,0,0.06);transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;}
+.post-card:hover{transform:translateY(-6px);box-shadow:0 18px 45px rgba(255,107,157,0.15);}
+.post-thumb{height:155px;display:flex;align-items:center;justify-content:center;position:relative;}
+.post-cat-badge{position:absolute;top:12px;left:12px;background:#fff;color:var(--pink);font-size:0.72rem;font-weight:700;padding:0.22rem 0.65rem;border-radius:12px;}
+.post-emoji{font-size:2.8rem;position:relative;z-index:1;}
+.post-body{padding:1.2rem;}
+.post-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:0.45rem;line-height:1.4;}
+.post-excerpt{font-size:0.84rem;color:var(--muted);line-height:1.6;margin-bottom:0.8rem;}
+.post-footer{display:flex;justify-content:space-between;font-size:0.8rem;color:var(--muted);}
+.post-read{color:var(--pink);font-weight:700;}
+#skills{background:#fff;}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:center;}
+.s-pill{padding:0.55rem 1.3rem;border-radius:25px;font-weight:700;font-size:0.88rem;transition:transform 0.2s;}
+.s-pill:hover{transform:translateY(-3px) scale(1.06);}
+.sp1{background:linear-gradient(135deg,#ffe0ec,#ffc2d4);color:#c9184a;}
+.sp2{background:linear-gradient(135deg,#fff0e0,#ffd9b3);color:#e05c00;}
+.sp3{background:linear-gradient(135deg,#d8f8ef,#b7f0e0);color:#067d60;}
+.sp4{background:linear-gradient(135deg,#deeeff,#bcd9f8);color:#1a6bb5;}
+.sp5{background:linear-gradient(135deg,#ede0ff,#d9bff8);color:#6528c4;}
+.sp6{background:linear-gradient(135deg,#fffbd0,#fff59d);color:#8a7500;}
+#subscribe{background:linear-gradient(135deg,#fff0f5,#fffbf0,#f0fff8);}
+.sub-wrap{background:#fff;border-radius:28px;padding:3rem;text-align:center;box-shadow:0 12px 50px rgba(255,107,157,0.1);max-width:580px;margin:0 auto;}
+.sub-wrap h3{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;margin-bottom:0.5rem;}
+.sub-wrap p{color:var(--muted);margin-bottom:1.8rem;}
+.sub-form{display:flex;flex-direction:column;gap:0.8rem;max-width:380px;margin:0 auto;}
+.sub-inp{padding:0.75rem 1.2rem;border:2px solid #ffe0ec;border-radius:14px;font-family:'Nunito',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.3s;}
+.sub-inp:focus{border-color:var(--pink);}
+.sub-btn{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:0.8rem;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+.sub-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,107,157,0.35);}
+.sub-note{margin-top:1rem;font-size:0.85rem;color:var(--muted);}
+.sub-note strong{color:var(--pink);}
+.sub-tbl-wrap{overflow-x:auto;margin-top:1rem;}
+.sub-tbl{width:100%;border-collapse:collapse;font-size:0.84rem;}
+.sub-tbl th{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:0.55rem 0.9rem;text-align:left;}
+.sub-tbl td{padding:0.45rem 0.9rem;border-bottom:1px solid #ffe0ec;}
+.sub-tbl tr:hover td{background:#fff5f8;}
+#contact{background:#fff;text-align:center;}
+.contact-chips{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;}
+.c-chip{display:flex;align-items:center;gap:0.5rem;background:var(--light);border:2px solid #ffe0ec;padding:0.6rem 1.4rem;border-radius:25px;color:var(--text);text-decoration:none;font-weight:700;font-size:0.88rem;transition:all 0.3s;}
+.c-chip:hover{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;border-color:transparent;transform:translateY(-2px);}
+footer{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;text-align:center;padding:2rem;position:relative;z-index:1;}
+footer p{font-size:0.9rem;opacity:0.92;}
+.toast{position:fixed;bottom:2rem;right:2rem;color:#fff;padding:0.8rem 1.5rem;border-radius:14px;font-weight:700;z-index:9999;display:none;box-shadow:0 8px 25px rgba(6,214,160,0.3);font-family:'Nunito',sans-serif;}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+.modal-ov.open{display:flex;}
+.modal-box{background:#fff;border-radius:24px;padding:2.5rem;width:340px;box-shadow:0 25px 70px rgba(255,107,157,0.22);animation:popIn 0.3s ease;}
+@keyframes popIn{from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-box h3{font-family:'Playfair Display',serif;font-size:1.5rem;text-align:center;margin-bottom:1.5rem;background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.m-inp{width:100%;padding:0.75rem 1.1rem;border:2px solid #ffe0ec;border-radius:12px;font-family:'Nunito',sans-serif;font-size:0.94rem;margin-bottom:0.9rem;outline:none;transition:border-color 0.3s;}
+.m-inp:focus{border-color:var(--pink);}
+.m-err{color:#e05c7a;font-size:0.84rem;text-align:center;margin-bottom:0.8rem;display:none;}
+.m-cancel{width:100%;background:#fff;border:2px solid #ffe0ec;color:var(--muted);padding:0.65rem;border-radius:12px;font-family:'Nunito',sans-serif;font-size:0.94rem;cursor:pointer;margin-top:0.5rem;}
+#ap-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:998;overflow-y:auto;backdrop-filter:blur(5px);}
+#ap-ov.open{display:block;}
+#ap-panel{background:#fff;border-radius:24px;max-width:480px;margin:2rem auto;padding:2rem;box-shadow:0 25px 70px rgba(255,107,157,0.18);}
+.ap-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.ap-hd h3{font-family:'Playfair Display',serif;font-size:1.35rem;background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ap-cls{background:none;border:2px solid #ffe0ec;color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;}
+.ap-sec{margin-bottom:1.4rem;}
+.ap-sec h4{font-size:0.73rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:0.7rem;}
+.ap-lbl{font-size:0.84rem;color:#555;display:block;margin-bottom:0.25rem;margin-top:0.65rem;}
+.ap-inp{width:100%;padding:0.58rem 0.95rem;border:2px solid #ffe0ec;border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.3s;}
+.ap-inp:focus{border-color:var(--pink);}
+.ap-ta{width:100%;padding:0.58rem 0.95rem;border:2px solid #ffe0ec;border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.88rem;outline:none;resize:vertical;min-height:75px;}
+.ap-ta:focus{border-color:var(--pink);}
+.ap-div{border:none;border-top:2px dashed #ffe0ec;margin:1.1rem 0;}
+.ap-save{width:100%;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:0.9rem;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;margin-top:0.5rem;}
+.ap-save:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,107,157,0.35);}
+.ap-upl{display:block;width:100%;background:#fff5f8;border:2px dashed var(--pink);color:var(--pink);padding:0.75rem;border-radius:10px;text-align:center;cursor:pointer;font-weight:700;font-size:0.88rem;margin-top:0.4rem;}
+.ap-upl:hover{background:#ffe0ec;}
+.sk-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.4rem;}
+.sk-tag{background:#ffe0ec;color:#c9184a;padding:0.22rem 0.65rem;border-radius:12px;font-size:0.78rem;display:inline-flex;align-items:center;gap:0.25rem;}
+.sk-tag button{background:none;border:none;color:#c9184a;cursor:pointer;font-size:0.88rem;}
+.pt-card{background:#fff5f8;border:2px solid #ffe0ec;border-radius:12px;padding:0.8rem;margin-bottom:0.7rem;}
+.pt-card-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem;}
+.pt-card-hd span{font-weight:700;font-size:0.84rem;}
+.del-btn{background:#ffe0ec;border:none;color:#e05c7a;border-radius:8px;padding:0.18rem 0.55rem;cursor:pointer;font-size:0.78rem;}
+.add-post-btn{width:100%;background:#fff5f8;border:2px dashed #ffe0ec;color:var(--pink);padding:0.55rem;border-radius:10px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.9rem;}
+.add-post-btn:hover{background:#ffe0ec;}
+#confetti-c{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500;}
+@media(max-width:640px){
+  .about-grid{grid-template-columns:1fr;text-align:center;}
+  .stats-row{justify-content:center;}
+  nav{padding:0.6rem 0.8rem;}
+  .nav-links{gap:0.4rem;}
+  .nav-links a{font-size:0.8rem;padding:0.3rem 0.6rem;}
+}
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<canvas id="confetti-c"></canvas>
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <nav>
-  <div class="nav-logo" id="nav-name">Dev.portfolio</div>
+  <div class="nav-logo" id="nav-logo" onclick="goTo('hero')">MyBlog ✨</div>
   <div class="nav-links">
-    <a onclick="scrollToSection('about')">About</a>
-    <a onclick="scrollToSection('skills')">Skills</a>
-    <a onclick="scrollToSection('projects')">Projects</a>
-    <a onclick="scrollToSection('contact')">Contact</a>
-    <a class="admin-btn" onclick="openLogin()">&#9998; Admin</a>
+    <a onclick="goTo('about')">About</a>
+    <a onclick="goTo('blog')">Blog</a>
+    <a onclick="goTo('skills')">Skills</a>
+    <a onclick="goTo('subscribe')">Subscribe</a>
+    <a onclick="goTo('contact')">Contact</a>
+    <a class="nav-admin" onclick="openLogin()">⚙ Admin</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <h1>Hi, I'm <span id="display-name">Your Name</span></h1>
-      <p class="tagline" id="display-tagline">Computer Science Student & Developer passionate about building amazing things.</p>
-      <div class="hero-btns">
-        <button class="btn-primary" onclick="scrollToSection('projects')">View Projects</button>
-        <button class="btn-outline" onclick="scrollToSection('contact')">Contact Me</button>
-      </div>
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">✨ Welcome to My Blog</div>
+    <div class="hero-avatar">
+      <img id="hero-img" src="" alt="Profile">
+      <span class="avatar-initials" id="hero-init">YN</span>
     </div>
-    <div class="hero-image">
-      <div class="photo-frame">
-        <div class="photo-ring"></div>
-        <img id="profile-img" src="" alt="Profile Photo">
-        <div class="photo-placeholder" id="photo-placeholder">
-          <span class="icon">&#128247;</span>
-          <span>Your Photo</span>
-        </div>
-      </div>
+    <h1 class="hero-title">Hi, I'm <span id="d-name">Your Name</span></h1>
+    <p class="hero-sub" id="d-tagline">Blogger, Creator & Storyteller. Sharing ideas that inspire and stories that connect.</p>
+    <div class="hero-btns">
+      <button class="btn-grad" onclick="goTo('blog')">Read My Blog 📖</button>
+      <button class="btn-out" onclick="goTo('subscribe')">Subscribe 💌</button>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-inner">
-    <h2 class="section-title">About <span>Me</span></h2>
-    <div class="underline"></div>
-    <p class="about-text" id="display-about">I'm a passionate Computer Science student who loves turning ideas into reality through code. I enjoy learning new technologies and building projects that solve real problems.</p>
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-title">About <span>Me</span></h2>
+      <div class="divider-pill"><span></span></div>
+      <p class="sec-sub">Get to know the person behind the blog</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="about-img">
+          <img id="about-img" src="" alt="">
+          <span id="about-emoji">😊</span>
+        </div>
+        <div class="deco-circle"></div>
+      </div>
+      <div class="about-text">
+        <h3>Hello! I'm <span id="d-name2">Your Name</span></h3>
+        <p id="d-about">I'm a passionate blogger who loves to share ideas, stories, and experiences with the world. Writing is my way of connecting with amazing people like you!</p>
+        <div class="stats-row">
+          <div class="stat-box" style="background:linear-gradient(135deg,var(--pink),var(--orange));"><span class="stat-num" id="s1">50+</span><span class="stat-lbl">Posts</span></div>
+          <div class="stat-box" style="background:linear-gradient(135deg,var(--teal),var(--blue));"><span class="stat-num" id="s2">1K+</span><span class="stat-lbl">Readers</span></div>
+          <div class="stat-box" style="background:linear-gradient(135deg,var(--yellow),var(--orange));"><span class="stat-num" id="s3">2yr</span><span class="stat-lbl">Blogging</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-title">Latest <span>Posts</span></h2>
+      <div class="divider-pill"><span></span></div>
+      <p class="sec-sub">Fresh stories, ideas and inspiration</p>
+    </div>
+    <div class="posts-grid" id="posts-grid"></div>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="section-inner">
-    <h2 class="section-title">My <span>Skills</span></h2>
-    <div class="underline"></div>
-    <div class="skills-grid" id="skills-list"></div>
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-title">My <span>Skills</span></h2>
+      <div class="divider-pill"><span></span></div>
+    </div>
+    <div class="skills-wrap" id="skills-list"></div>
   </div>
 </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <h2 class="section-title">My <span>Projects</span></h2>
-    <div class="underline"></div>
-    <div class="projects-grid" id="projects-list"></div>
+<!-- SUBSCRIBE -->
+<section id="subscribe">
+  <div class="sec-inner">
+    <div class="sub-wrap">
+      <h3>📬 Stay Updated!</h3>
+      <p>Subscribe to get latest posts. No spam, ever!</p>
+      <div class="sub-form">
+        <input class="sub-inp" id="sub-name" type="text" placeholder="Your Name ✍️">
+        <input class="sub-inp" id="sub-email" type="email" placeholder="Your Email 📧">
+        <button class="sub-btn" onclick="doSubscribe()">Subscribe Now 💌</button>
+      </div>
+      <p class="sub-note">Join <strong id="sub-cnt">0</strong> amazing readers!</p>
+    </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-inner">
-    <h2 class="section-title">Get In <span>Touch</span></h2>
-    <div class="underline" style="margin: 0 auto 2rem;"></div>
-    <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Feel free to reach out for collaborations or just a friendly hello!</p>
-    <div class="contact-email" id="display-email">your.email@gmail.com</div>
-    <div class="social-links" id="social-links-display"></div>
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-title">Get In <span>Touch</span></h2>
+      <div class="divider-pill"><span></span></div>
+      <p class="sec-sub" id="d-email">your.email@gmail.com</p>
+    </div>
+    <div class="contact-chips" id="contact-chips"></div>
   </div>
 </section>
 
 <footer>
-  <p id="footer-text">Made with &#10084; by <span id="footer-name">Your Name</span></p>
+  <p>Made with ❤️ by <strong id="f-name">Your Name</strong> &bull; <span id="f-year">2025</span></p>
 </footer>
 
-<!-- SUCCESS TOAST -->
-<div class="success-toast" id="toast">&#10003; Portfolio updated successfully!</div>
+<div class="toast" id="toast"></div>
 
-<!-- LOGIN OVERLAY -->
-<div id="login-overlay">
-  <div id="login-box">
-    <h3>&#128274; Admin Login</h3>
-    <input type="text" id="login-user" placeholder="Username" />
-    <input type="password" id="login-pass" placeholder="Password" onkeydown="if(event.key==='Enter') doLogin()" />
-    <div id="login-error">Wrong username or password!</div>
-    <button class="save-btn" onclick="doLogin()">Login</button>
-    <button class="login-cancel" onclick="closeLogin()">Cancel</button>
+<!-- LOGIN -->
+<div class="modal-ov" id="login-ov">
+  <div class="modal-box">
+    <h3>🔐 Admin Login</h3>
+    <input class="m-inp" type="text" id="lu" placeholder="Username">
+    <input class="m-inp" type="password" id="lp" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="m-err" id="l-err">Wrong credentials! Try again.</div>
+    <button class="btn-grad" style="width:100%;" onclick="doLogin()">Login</button>
+    <button class="m-cancel" onclick="closeLogin()">Cancel</button>
   </div>
 </div>
 
 <!-- ADMIN PANEL -->
-<div id="admin-overlay">
-  <div id="admin-panel">
-    <div class="admin-header">
-      <h3>&#9998; Admin Panel</h3>
-      <button class="close-btn" onclick="closeAdmin()">&#10005;</button>
+<div id="ap-ov">
+  <div id="ap-panel">
+    <div class="ap-hd">
+      <h3>⚙️ Admin Panel</h3>
+      <button class="ap-cls" onclick="closeAdmin()">✕</button>
     </div>
 
-    <!-- Photo -->
-    <div class="admin-section">
-      <h4>Profile Photo</h4>
-      <label class="photo-upload-label" for="photo-input">&#128247; Click to Upload Your Photo</label>
-      <input type="file" id="photo-input" accept="image/*" style="display:none" onchange="uploadPhoto(event)">
-      <p style="font-size:0.75rem; color:rgba(255,255,255,0.3); margin-top:0.4rem; text-align:center;">Supports JPG, PNG, WEBP</p>
+    <div class="ap-sec">
+      <h4>📷 Photos</h4>
+      <label class="ap-lbl">Profile Photo</label>
+      <label class="ap-upl" for="ap-ph">📤 Upload Profile Photo</label>
+      <input type="file" id="ap-ph" accept="image/*" style="display:none" onchange="upPhoto(event,'p')">
+      <label class="ap-lbl">Hero Background Photo</label>
+      <label class="ap-upl" for="ap-bg">🌅 Upload Background Photo</label>
+      <input type="file" id="ap-bg" accept="image/*" style="display:none" onchange="upPhoto(event,'b')">
     </div>
-    <hr class="divider">
+    <hr class="ap-div">
 
-    <!-- Personal Info -->
-    <div class="admin-section">
-      <h4>Personal Info</h4>
-      <label>Full Name</label>
-      <input type="text" id="admin-name" placeholder="e.g. Ali Hassan">
-      <label>Short Tagline</label>
-      <input type="text" id="admin-tagline" placeholder="CS Student & Developer">
-      <label>About Me (full paragraph)</label>
-      <textarea id="admin-about" placeholder="Write about yourself..."></textarea>
-      <label>Email Address</label>
-      <input type="text" id="admin-email" placeholder="your@email.com">
+    <div class="ap-sec">
+      <h4>👤 Personal Info</h4>
+      <label class="ap-lbl">Your Name</label><input class="ap-inp" id="ap-name" placeholder="Your Name">
+      <label class="ap-lbl">Blog Title</label><input class="ap-inp" id="ap-blogtitle" placeholder="MyBlog ✨">
+      <label class="ap-lbl">Tagline</label><input class="ap-inp" id="ap-tagline" placeholder="Blogger & Storyteller">
+      <label class="ap-lbl">About Me</label><textarea class="ap-ta" id="ap-about"></textarea>
+      <label class="ap-lbl">Email</label><input class="ap-inp" id="ap-email" placeholder="your@email.com">
     </div>
-    <hr class="divider">
+    <hr class="ap-div">
 
-    <!-- Skills -->
-    <div class="admin-section">
-      <h4>Skills</h4>
-      <div class="skills-admin" id="admin-skills-tags"></div>
-      <label>Add Skill (press Enter)</label>
-      <input type="text" id="skill-input" placeholder="e.g. Python, React, C++" onkeydown="addSkill(event)">
+    <div class="ap-sec">
+      <h4>📊 Stats</h4>
+      <label class="ap-lbl">Posts (e.g. 50+)</label><input class="ap-inp" id="ap-s1" placeholder="50+">
+      <label class="ap-lbl">Readers (e.g. 1K+)</label><input class="ap-inp" id="ap-s2" placeholder="1K+">
+      <label class="ap-lbl">Experience (e.g. 2yr)</label><input class="ap-inp" id="ap-s3" placeholder="2yr">
     </div>
-    <hr class="divider">
+    <hr class="ap-div">
 
-    <!-- Projects -->
-    <div class="admin-section">
-      <h4>Projects</h4>
-      <div id="admin-projects-list"></div>
-      <button class="add-proj-btn" onclick="addProject()">+ Add New Project</button>
+    <div class="ap-sec">
+      <h4>💡 Skills</h4>
+      <div class="sk-tags" id="ap-sk-tags"></div>
+      <input class="ap-inp" id="ap-sk-inp" placeholder="Type skill & press Enter" onkeydown="addSkill(event)" style="margin-top:0.4rem">
     </div>
-    <hr class="divider">
+    <hr class="ap-div">
 
-    <!-- Social Links -->
-    <div class="admin-section">
-      <h4>Social Links</h4>
-      <label>GitHub URL</label>
-      <input type="text" id="admin-github" placeholder="https://github.com/username">
-      <label>LinkedIn URL</label>
-      <input type="text" id="admin-linkedin" placeholder="https://linkedin.com/in/username">
+    <div class="ap-sec">
+      <h4>📝 Blog Posts</h4>
+      <div id="ap-posts"></div>
+      <button class="add-post-btn" onclick="addPost()">+ Add New Post</button>
     </div>
-    <hr class="divider">
+    <hr class="ap-div">
 
-    <!-- Change Password -->
-    <div class="admin-section">
-      <h4>Change Admin Password</h4>
-      <label>New Password (leave empty to keep current)</label>
-      <input type="password" id="new-pass" placeholder="New password...">
+    <div class="ap-sec">
+      <h4>🔗 Social Links</h4>
+      <label class="ap-lbl">GitHub</label><input class="ap-inp" id="ap-gh" placeholder="https://github.com/username">
+      <label class="ap-lbl">LinkedIn</label><input class="ap-inp" id="ap-li" placeholder="https://linkedin.com/in/username">
+      <label class="ap-lbl">Instagram</label><input class="ap-inp" id="ap-ig" placeholder="https://instagram.com/username">
+    </div>
+    <hr class="ap-div">
+
+    <div class="ap-sec">
+      <h4>📬 Subscribers (<span id="ap-sc">0</span> total)</h4>
+      <div id="ap-sub-tbl"></div>
+    </div>
+    <hr class="ap-div">
+
+    <div class="ap-sec">
+      <h4>🔑 Change Password</h4>
+      <label class="ap-lbl">New Password (blank = keep same)</label>
+      <input class="ap-inp" type="password" id="ap-np" placeholder="New password...">
     </div>
 
-    <button class="save-btn" onclick="saveAll()">&#10003; Save All Changes</button>
+    <button class="ap-save" onclick="saveAll()">💾 Save All Changes</button>
   </div>
 </div>
 
 <script>
-// =====================
-// DATA STORE
-// =====================
-var data = {
-  name: "Your Name",
-  tagline: "Computer Science Student & Developer passionate about building amazing things.",
-  about: "I'm a passionate Computer Science student who loves turning ideas into reality through code. I enjoy learning new technologies and building projects that solve real problems.",
-  email: "your.email@gmail.com",
-  skills: ["HTML", "CSS", "JavaScript", "Python", "C++", "React"],
-  projects: [
-    { title: "Portfolio Website", desc: "My personal portfolio built with HTML, CSS & JS with admin panel.", tags: ["HTML","CSS","JS"], icon: "💻" },
-    { title: "Calculator App", desc: "A fully functional calculator with clean modern UI.", tags: ["JavaScript"], icon: "🧮" },
-    { title: "Student Database", desc: "A CRUD app to manage student records using Python.", tags: ["Python","MySQL"], icon: "🗄️" }
+var D={
+  name:"Your Name",blogTitle:"MyBlog ✨",
+  tagline:"Blogger, Creator & Storyteller. Sharing ideas that inspire and stories that connect.",
+  about:"I'm a passionate blogger who loves to share ideas, stories, and experiences with the world. Writing is my way of connecting with amazing people like you!",
+  email:"your.email@gmail.com",
+  s1:"50+",s2:"1K+",s3:"2yr",
+  skills:["Writing","Blogging","Photography","Travel","Food","Lifestyle","Tech","Creative"],
+  posts:[
+    {title:"My First Blog Post",exc:"Starting this journey with an open heart and lots of ideas to share.",cat:"Life",em:"✍️",date:"Jan 2025"},
+    {title:"Top 5 Travel Tips",exc:"After visiting 10+ countries, here are my stress-free travel secrets.",cat:"Travel",em:"✈️",date:"Feb 2025"},
+    {title:"How I Started Blogging",exc:"From zero to building a community — my honest blogging story.",cat:"Story",em:"📖",date:"Mar 2025"}
   ],
-  github: "",
-  linkedin: "",
-  photo: "",
-  password: "admin123"
+  github:"",linkedin:"",instagram:"",
+  photo:"",bgPhoto:"",
+  password:"admin123",
+  subscribers:[]
 };
 
-// =====================
-// SCROLL
-// =====================
-function scrollToSection(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-}
+var SC=['sp1','sp2','sp3','sp4','sp5','sp6'];
+var GRADS=[
+  'linear-gradient(135deg,#ff6b9d,#ff9142)',
+  'linear-gradient(135deg,#06d6a0,#4d9de0)',
+  'linear-gradient(135deg,#845ec2,#ff6b9d)',
+  'linear-gradient(135deg,#ffd93d,#ff9142)',
+  'linear-gradient(135deg,#4d9de0,#06d6a0)',
+  'linear-gradient(135deg,#ff9142,#ffd93d)'
+];
 
-// =====================
-// RENDER PORTFOLIO
-// =====================
-function render() {
-  document.getElementById('display-name').textContent = data.name;
-  document.getElementById('nav-name').textContent = data.name.split(' ')[0] + '.dev';
-  document.getElementById('display-tagline').textContent = data.tagline;
-  document.getElementById('display-about').textContent = data.about;
-  document.getElementById('display-email').textContent = data.email;
-  document.getElementById('footer-name').textContent = data.name;
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 
-  // Photo
-  var img = document.getElementById('profile-img');
-  var placeholder = document.getElementById('photo-placeholder');
-  if (data.photo) {
-    img.src = data.photo;
-    img.style.display = 'block';
-    placeholder.style.display = 'none';
+function render(){
+  document.getElementById('d-name').textContent=D.name;
+  document.getElementById('d-name2').textContent=D.name;
+  document.getElementById('nav-logo').textContent=D.blogTitle;
+  document.getElementById('hero-badge').textContent='✨ Welcome to '+D.blogTitle;
+  document.getElementById('d-tagline').textContent=D.tagline;
+  document.getElementById('d-about').textContent=D.about;
+  document.getElementById('d-email').textContent=D.email;
+  document.getElementById('f-name').textContent=D.name;
+  document.getElementById('f-year').textContent=new Date().getFullYear();
+  document.getElementById('s1').textContent=D.s1;
+  document.getElementById('s2').textContent=D.s2;
+  document.getElementById('s3').textContent=D.s3;
+  document.getElementById('sub-cnt').textContent=D.subscribers.length;
+
+  var init=D.name.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2)||'YN';
+  document.getElementById('hero-init').textContent=init;
+
+  var hi=document.getElementById('hero-img');
+  var ai=document.getElementById('about-img');
+  if(D.photo){
+    hi.src=D.photo;hi.style.display='block';document.getElementById('hero-init').style.display='none';
+    ai.src=D.photo;ai.style.display='block';document.getElementById('about-emoji').style.display='none';
   } else {
-    img.style.display = 'none';
-    placeholder.style.display = 'block';
+    hi.style.display='none';document.getElementById('hero-init').style.display='block';
+    ai.style.display='none';document.getElementById('about-emoji').style.display='block';
   }
+  var bg=document.getElementById('hero-bg');
+  bg.style.backgroundImage=D.bgPhoto?'url('+D.bgPhoto+')':'';
 
-  // Skills
-  var skillsList = document.getElementById('skills-list');
-  skillsList.innerHTML = data.skills.map(function(s) {
-    return '<span class="skill-tag">' + s + '</span>';
+  var sl=document.getElementById('skills-list');
+  sl.innerHTML=D.skills.map(function(s,i){return '<span class="s-pill '+SC[i%SC.length]+'">'+s+'</span>';}).join('');
+
+  var pg=document.getElementById('posts-grid');
+  pg.innerHTML=D.posts.map(function(p,i){
+    return '<div class="post-card">'+
+      '<div class="post-thumb" style="background:'+GRADS[i%GRADS.length]+'">'+
+      '<span class="post-cat-badge">'+p.cat+'</span>'+
+      '<span class="post-emoji">'+p.em+'</span>'+
+      '</div>'+
+      '<div class="post-body">'+
+      '<div class="post-title">'+p.title+'</div>'+
+      '<div class="post-excerpt">'+p.exc+'</div>'+
+      '<div class="post-footer"><span>'+p.date+'</span><span class="post-read">Read more →</span></div>'+
+      '</div></div>';
   }).join('');
 
-  // Projects
-  var projList = document.getElementById('projects-list');
-  projList.innerHTML = data.projects.map(function(p) {
-    return '<div class="project-card">' +
-      '<div class="proj-icon">' + (p.icon || '💡') + '</div>' +
-      '<div class="proj-title">' + p.title + '</div>' +
-      '<div class="proj-desc">' + p.desc + '</div>' +
-      '<div class="proj-tags">' + p.tags.map(function(t) { return '<span class="proj-tag">' + t + '</span>'; }).join('') + '</div>' +
-      '</div>';
-  }).join('');
-
-  // Social Links
-  var socials = document.getElementById('social-links-display');
-  var links = [];
-  if (data.github) links.push('<a class="social-link" href="' + data.github + '" target="_blank">GitHub</a>');
-  if (data.linkedin) links.push('<a class="social-link" href="' + data.linkedin + '" target="_blank">LinkedIn</a>');
-  links.push('<a class="social-link" href="mailto:' + data.email + '">Email Me</a>');
-  socials.innerHTML = links.join('');
+  var cl=document.getElementById('contact-chips');
+  var lnks=['<a class="c-chip" href="mailto:'+D.email+'">📧 Email</a>'];
+  if(D.github)lnks.push('<a class="c-chip" href="'+D.github+'" target="_blank">💻 GitHub</a>');
+  if(D.linkedin)lnks.push('<a class="c-chip" href="'+D.linkedin+'" target="_blank">💼 LinkedIn</a>');
+  if(D.instagram)lnks.push('<a class="c-chip" href="'+D.instagram+'" target="_blank">📸 Instagram</a>');
+  cl.innerHTML=lnks.join('');
 }
 
-// =====================
-// LOGIN
-// =====================
-function openLogin() {
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-pass').value = '';
-  document.getElementById('login-error').style.display = 'none';
-  document.getElementById('login-overlay').classList.add('open');
-}
-function closeLogin() {
-  document.getElementById('login-overlay').classList.remove('open');
-}
-function doLogin() {
-  var u = document.getElementById('login-user').value;
-  var p = document.getElementById('login-pass').value;
-  if (u === 'admin' && p === data.password) {
-    closeLogin();
-    openAdmin();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-  }
+function doSubscribe(){
+  var n=document.getElementById('sub-name').value.trim();
+  var e=document.getElementById('sub-email').value.trim();
+  if(!n||!e){showToast('⚠️ Please fill both fields!','#ff9142');return;}
+  if(!e.includes('@')){showToast('⚠️ Enter a valid email!','#ff9142');return;}
+  if(D.subscribers.some(function(s){return s.email===e;})){showToast('Already subscribed! 😊','#06d6a0');return;}
+  D.subscribers.push({name:n,email:e,date:new Date().toLocaleDateString()});
+  document.getElementById('sub-name').value='';
+  document.getElementById('sub-email').value='';
+  document.getElementById('sub-cnt').textContent=D.subscribers.length;
+  showToast('🎉 Welcome '+n+'! You are subscribed!','linear-gradient(135deg,#06d6a0,#4d9de0)');
+  launchConfetti();
 }
 
-// =====================
-// ADMIN PANEL
-// =====================
-function openAdmin() {
-  document.getElementById('admin-name').value = data.name;
-  document.getElementById('admin-tagline').value = data.tagline;
-  document.getElementById('admin-about').value = data.about;
-  document.getElementById('admin-email').value = data.email;
-  document.getElementById('admin-github').value = data.github;
-  document.getElementById('admin-linkedin').value = data.linkedin;
-  document.getElementById('new-pass').value = '';
-  renderAdminSkills();
-  renderAdminProjects();
-  document.getElementById('admin-overlay').classList.add('open');
+function openLogin(){
+  document.getElementById('lu').value='';document.getElementById('lp').value='';
+  document.getElementById('l-err').style.display='none';
+  document.getElementById('login-ov').classList.add('open');
 }
-function closeAdmin() {
-  document.getElementById('admin-overlay').classList.remove('open');
+function closeLogin(){document.getElementById('login-ov').classList.remove('open');}
+function doLogin(){
+  if(document.getElementById('lu').value==='admin'&&document.getElementById('lp').value===D.password){
+    closeLogin();openAdmin();
+  } else {document.getElementById('l-err').style.display='block';}
 }
 
-// Skills
-function renderAdminSkills() {
-  var container = document.getElementById('admin-skills-tags');
-  container.innerHTML = data.skills.map(function(s, i) {
-    return '<span class="skill-admin-tag">' + s + ' <button onclick="removeSkill(' + i + ')">✕</button></span>';
+function openAdmin(){
+  document.getElementById('ap-name').value=D.name;
+  document.getElementById('ap-blogtitle').value=D.blogTitle;
+  document.getElementById('ap-tagline').value=D.tagline;
+  document.getElementById('ap-about').value=D.about;
+  document.getElementById('ap-email').value=D.email;
+  document.getElementById('ap-s1').value=D.s1;
+  document.getElementById('ap-s2').value=D.s2;
+  document.getElementById('ap-s3').value=D.s3;
+  document.getElementById('ap-gh').value=D.github;
+  document.getElementById('ap-li').value=D.linkedin;
+  document.getElementById('ap-ig').value=D.instagram;
+  document.getElementById('ap-np').value='';
+  renderApSkills();renderApPosts();renderApSubs();
+  document.getElementById('ap-ov').classList.add('open');
+}
+function closeAdmin(){document.getElementById('ap-ov').classList.remove('open');}
+
+function renderApSkills(){
+  document.getElementById('ap-sk-tags').innerHTML=D.skills.map(function(s,i){
+    return '<span class="sk-tag">'+s+' <button onclick="removeSkill('+i+')">✕</button></span>';
   }).join('');
 }
-function addSkill(e) {
-  if (e.key === 'Enter') {
-    var v = e.target.value.trim();
-    if (v && data.skills.indexOf(v) === -1) {
-      data.skills.push(v);
-      e.target.value = '';
-      renderAdminSkills();
-    }
-  }
-}
-function removeSkill(i) {
-  data.skills.splice(i, 1);
-  renderAdminSkills();
-}
+function addSkill(e){if(e.key==='Enter'){var v=e.target.value.trim();if(v){D.skills.push(v);e.target.value='';renderApSkills();}}}
+function removeSkill(i){D.skills.splice(i,1);renderApSkills();}
 
-// Projects
-function renderAdminProjects() {
-  var container = document.getElementById('admin-projects-list');
-  container.innerHTML = data.projects.map(function(p, i) {
-    return '<div class="proj-admin-card">' +
-      '<div class="proj-admin-header">' +
-        '<span>' + (p.icon || '💡') + ' Project ' + (i+1) + '</span>' +
-        '<button class="del-proj-btn" onclick="removeProject(' + i + ')">Delete</button>' +
-      '</div>' +
-      '<input type="text" value="' + p.title + '" placeholder="Project Title" onchange="updateProject(' + i + ',\'title\',this.value)">' +
-      '<input type="text" value="' + p.desc + '" placeholder="Description" onchange="updateProject(' + i + ',\'desc\',this.value)">' +
-      '<input type="text" value="' + p.tags.join(', ') + '" placeholder="Tags: HTML, CSS, JS" onchange="updateProject(' + i + ',\'tags\',this.value)">' +
-      '<input type="text" value="' + (p.icon || '') + '" placeholder="Emoji icon e.g. 💻 🚀 🎯" onchange="updateProject(' + i + ',\'icon\',this.value)">' +
+function renderApPosts(){
+  document.getElementById('ap-posts').innerHTML=D.posts.map(function(p,i){
+    return '<div class="pt-card">'+
+      '<div class="pt-card-hd"><span>'+p.em+' Post '+(i+1)+'</span><button class="del-btn" onclick="delPost('+i+')">Delete</button></div>'+
+      '<input class="ap-inp" value="'+p.title+'" placeholder="Title" onchange="upPost('+i+',\'title\',this.value)" style="margin-bottom:0.35rem">'+
+      '<input class="ap-inp" value="'+p.exc+'" placeholder="Excerpt" onchange="upPost('+i+',\'exc\',this.value)" style="margin-bottom:0.35rem">'+
+      '<input class="ap-inp" value="'+p.cat+'" placeholder="Category" onchange="upPost('+i+',\'cat\',this.value)" style="margin-bottom:0.35rem">'+
+      '<input class="ap-inp" value="'+p.em+'" placeholder="Emoji" onchange="upPost('+i+',\'em\',this.value)" style="margin-bottom:0.35rem">'+
+      '<input class="ap-inp" value="'+p.date+'" placeholder="Date e.g. Jan 2025" onchange="upPost('+i+',\'date\',this.value)">'+
       '</div>';
   }).join('');
 }
-function addProject() {
-  data.projects.push({ title: "New Project", desc: "Describe your project here.", tags: ["HTML","CSS"], icon: "🚀" });
-  renderAdminProjects();
-}
-function removeProject(i) {
-  data.projects.splice(i, 1);
-  renderAdminProjects();
-}
-function updateProject(i, key, val) {
-  if (key === 'tags') {
-    data.projects[i].tags = val.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
-  } else {
-    data.projects[i][key] = val;
-  }
+function addPost(){D.posts.push({title:"New Post",exc:"Describe your post here.",cat:"Blog",em:"📝",date:"2025"});renderApPosts();}
+function delPost(i){D.posts.splice(i,1);renderApPosts();}
+function upPost(i,k,v){D.posts[i][k]=v;}
+
+function renderApSubs(){
+  var c=D.subscribers.length;
+  document.getElementById('ap-sc').textContent=c;
+  if(!c){document.getElementById('ap-sub-tbl').innerHTML='<p style="color:var(--muted);font-size:0.84rem;text-align:center;padding:0.8rem;">No subscribers yet.</p>';return;}
+  document.getElementById('ap-sub-tbl').innerHTML='<div class="sub-tbl-wrap"><table class="sub-tbl"><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Date</th></tr></thead><tbody>'+
+    D.subscribers.map(function(s,i){return '<tr><td>'+(i+1)+'</td><td>'+s.name+'</td><td>'+s.email+'</td><td>'+s.date+'</td></tr>';}).join('')+
+    '</tbody></table></div>';
 }
 
-// Photo Upload
-function uploadPhoto(e) {
-  var file = e.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(ev) {
-    data.photo = ev.target.result;
-    render();
-  };
-  reader.readAsDataURL(file);
+function upPhoto(e,t){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(ev){if(t==='p')D.photo=ev.target.result;else D.bgPhoto=ev.target.result;render();};
+  r.readAsDataURL(f);
 }
 
-// Save All
-function saveAll() {
-  var name = document.getElementById('admin-name').value.trim();
-  var tagline = document.getElementById('admin-tagline').value.trim();
-  var about = document.getElementById('admin-about').value.trim();
-  var email = document.getElementById('admin-email').value.trim();
-  var github = document.getElementById('admin-github').value.trim();
-  var linkedin = document.getElementById('admin-linkedin').value.trim();
-  var np = document.getElementById('new-pass').value.trim();
-
-  if (name) data.name = name;
-  if (tagline) data.tagline = tagline;
-  if (about) data.about = about;
-  if (email) data.email = email;
-  data.github = github;
-  data.linkedin = linkedin;
-  if (np) data.password = np;
-
-  render();
-  closeAdmin();
-  showToast();
+function saveAll(){
+  D.name=document.getElementById('ap-name').value||D.name;
+  D.blogTitle=document.getElementById('ap-blogtitle').value||D.blogTitle;
+  D.tagline=document.getElementById('ap-tagline').value||D.tagline;
+  D.about=document.getElementById('ap-about').value||D.about;
+  D.email=document.getElementById('ap-email').value||D.email;
+  D.s1=document.getElementById('ap-s1').value||D.s1;
+  D.s2=document.getElementById('ap-s2').value||D.s2;
+  D.s3=document.getElementById('ap-s3').value||D.s3;
+  D.github=document.getElementById('ap-gh').value;
+  D.linkedin=document.getElementById('ap-li').value;
+  D.instagram=document.getElementById('ap-ig').value;
+  var np=document.getElementById('ap-np').value.trim();
+  if(np)D.password=np;
+  render();closeAdmin();
+  showToast('💾 All changes saved successfully!','linear-gradient(135deg,var(--teal),#04b890)');
 }
 
-function showToast() {
-  var toast = document.getElementById('toast');
-  toast.style.display = 'block';
-  setTimeout(function() { toast.style.display = 'none'; }, 3000);
+function showToast(msg,bg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=bg||'linear-gradient(135deg,#06d6a0,#4d9de0)';
+  t.style.display='block';
+  setTimeout(function(){t.style.display='none';},3500);
 }
 
-// =====================
-// PARTICLES
-// =====================
-var canvas = document.getElementById('particles');
-var ctx = canvas.getContext('2d');
-var particles = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// CONFETTI
+var cc=document.getElementById('confetti-c');
+var cx=cc.getContext('2d');
+cc.width=window.innerWidth;cc.height=window.innerHeight;
+window.addEventListener('resize',function(){cc.width=window.innerWidth;cc.height=window.innerHeight;});
+var pieces=[];
+var cols=['#ff6b9d','#ff9142','#ffd93d','#06d6a0','#845ec2','#4d9de0'];
+function launchConfetti(){
+  for(var i=0;i<90;i++){pieces.push({x:Math.random()*cc.width,y:-20,w:Math.random()*10+5,h:Math.random()*5+3,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*360,rv:Math.random()*4-2,vy:Math.random()*4+2,vx:Math.random()*2-1,a:1});}
+  if(!animRunning)animCon();
 }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-for (var i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    r: Math.random() * 2 + 1,
-    o: Math.random() * 0.35 + 0.05
+var animRunning=false;
+function animCon(){
+  if(!pieces.length){animRunning=false;cx.clearRect(0,0,cc.width,cc.height);return;}
+  animRunning=true;
+  cx.clearRect(0,0,cc.width,cc.height);
+  pieces=pieces.filter(function(p){return p.a>0&&p.y<cc.height+30;});
+  pieces.forEach(function(p){
+    p.y+=p.vy;p.x+=p.vx;p.rot+=p.rv;
+    if(p.y>cc.height*0.65)p.a-=0.025;
+    cx.save();cx.globalAlpha=p.a;cx.translate(p.x,p.y);cx.rotate(p.rot*Math.PI/180);
+    cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore();
   });
+  requestAnimationFrame(animCon);
 }
 
-function animParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(function(p) {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0) p.x = canvas.width;
-    if (p.x > canvas.width) p.x = 0;
-    if (p.y < 0) p.y = canvas.height;
-    if (p.y > canvas.height) p.y = 0;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,107,53,' + p.o + ')';
-    ctx.fill();
+// FLOATING DOTS
+var fc2=document.createElement('canvas');
+fc2.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+document.body.appendChild(fc2);
+var fx=fc2.getContext('2d');
+fc2.width=window.innerWidth;fc2.height=window.innerHeight;
+var fps=[];
+for(var i=0;i<55;i++){fps.push({x:Math.random()*fc2.width,y:Math.random()*fc2.height,r:Math.random()*3+1,c:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-0.5)*0.45,vy:(Math.random()-0.5)*0.45,o:Math.random()*0.35+0.08});}
+function animDots(){
+  fx.clearRect(0,0,fc2.width,fc2.height);
+  fps.forEach(function(p){
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=fc2.width;if(p.x>fc2.width)p.x=0;
+    if(p.y<0)p.y=fc2.height;if(p.y>fc2.height)p.y=0;
+    fx.beginPath();fx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    fx.fillStyle=p.c;fx.globalAlpha=p.o;fx.fill();fx.globalAlpha=1;
   });
-  requestAnimationFrame(animParticles);
+  requestAnimationFrame(animDots);
 }
-animParticles();
+animDots();
 
-// =====================
-// INIT
-// =====================
 render();
 </script>
 </body>
