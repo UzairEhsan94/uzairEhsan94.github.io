@@ -1,28 +1,18 @@
-// Theme Toggle
-const themeBtn = document.getElementById('theme-toggle');
-themeBtn.addEventListener('click', () => {
-    let currentTheme = document.documentElement.getAttribute('data-theme');
-    let targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', targetTheme);
-    themeBtn.innerText = targetTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-});
-
-// Add New Course Row
-function addCourse() {
-    const container = document.getElementById('course-list');
-    const row = document.createElement('div');
-    row.className = 'row g-2 mb-3 course-row align-items-end';
-    row.innerHTML = `
-        <div class="col-md-5"><input type="text" class="form-control" placeholder="Course Title"></div>
-        <div class="col-md-3"><input type="number" class="form-control marks" placeholder="0-100"></div>
-        <div class="col-md-3"><input type="number" class="form-control credits" placeholder="Credits"></div>
-        <div class="col-md-1"><button class="btn btn-sm text-danger" onclick="this.parentElement.parentElement.remove()">✕</button></div>
+// Add Course Row
+function addRow() {
+    const container = document.getElementById('course-rows');
+    const div = document.createElement('div');
+    div.className = 'row g-3 mb-3 course-item';
+    div.innerHTML = `
+        <div class="col-md-6"><input type="text" class="form-control uni-input" placeholder="Course Title"></div>
+        <div class="col-md-3"><input type="number" class="form-control uni-input marks" placeholder="Marks"></div>
+        <div class="col-md-3"><input type="number" class="form-control uni-input credits" placeholder="Credits"></div>
     `;
-    container.appendChild(row);
+    container.appendChild(div);
 }
 
-// UMT Grading Scale Points
-function getPoints(m) {
+// UMT Grading Points
+function getGradePoints(m) {
     if (m >= 85) return 4.0;
     if (m >= 80) return 3.7;
     if (m >= 75) return 3.3;
@@ -35,45 +25,41 @@ function getPoints(m) {
 
 // Calculate GPA
 function calculateGPA() {
-    const marks = document.querySelectorAll('.marks');
-    const credits = document.querySelectorAll('.credits');
-    let totalQP = 0, totalCr = 0;
+    const marksArr = document.querySelectorAll('.marks');
+    const creditsArr = document.querySelectorAll('.credits');
+    let totalPoints = 0;
+    let totalCredits = 0;
 
-    marks.forEach((mInput, i) => {
-        let m = parseFloat(mInput.value);
-        let c = parseFloat(credits[i].value);
+    marksArr.forEach((markInput, i) => {
+        let m = parseFloat(markInput.value);
+        let c = parseFloat(creditsArr[i].value);
         if (!isNaN(m) && !isNaN(c)) {
-            totalQP += (getPoints(m) * c);
-            totalCr += c;
+            totalPoints += (getGradePoints(m) * c);
+            totalCredits += c;
         }
     });
 
-    const res = totalCr > 0 ? (totalQP / totalCr).toFixed(2) : "0.00";
-    document.getElementById('gpa-display').innerText = res;
-    if (totalCr > 0) document.getElementById('download-btn').style.display = 'inline-block';
+    const final = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+    document.getElementById('gpa-output').innerText = final;
+    document.getElementById('pdf-btn').style.display = 'inline-block';
 }
 
-// Generate PDF Transcript
-function generatePDF() {
+// PDF Download
+function downloadPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    
-    // Header
-    doc.setFillColor(139, 0, 0);
-    doc.rect(0, 0, 210, 35, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(18);
-    doc.text("UMT LAHORE - OFFICIAL TRANSCRIPT CLONE", 20, 22);
-
-    // Info
-    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(20);
+    doc.text("UNIVERSITY TRANSCRIPT CLONE", 20, 20);
     doc.setFontSize(12);
-    doc.text(`Student: Muhammad Uzair Ehsan`, 20, 45);
-    doc.text(`ID: COSC231103002`, 20, 52);
-    doc.text(`GPA: ${document.getElementById('gpa-display').innerText}`, 20, 59);
-
-    // Table
-    doc.line(20, 65, 190, 65);
-    doc.text("Courses Summary", 20, 72);
-    doc.save("Uzair_Ehsan_UMT_Portal.pdf");
+    doc.text(`Student: Muhammad Uzair Ehsan`, 20, 40);
+    doc.text(`Roll No: COSC231103002`, 20, 50);
+    doc.text(`Current GPA: ${document.getElementById('gpa-output').innerText}`, 20, 60);
+    doc.save("Uzair_Ehsan_Transcript.pdf");
 }
+
+// Theme Toggle
+document.getElementById('theme-btn').addEventListener('click', () => {
+    const body = document.body;
+    const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', theme);
+});
